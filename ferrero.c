@@ -20,7 +20,7 @@ given a dictionary of N words with average length L letters, each labeled with n
 #define VERB_LENGTH 6057
 #define DICTIONARY_LENGTH (NOUN_LENGTH+VERB_LENGTH)
 
-#define BUFFER_SIZE (16*1024)
+#define BUFFER_SIZE (64*1024)
 
 #define HASHMAP_LEN (DICTIONARY_LENGTH*100)
 
@@ -28,11 +28,7 @@ given a dictionary of N words with average length L letters, each labeled with n
 // http://www.cse.yorku.ca/~oz/hash.html
 uint64_t hash(char* p, size_t sz) {
     unsigned long hash = 5381;
-    int c;
-    for (int i = 0; i < sz; i++) {
-	c = *p++;
-	hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
-    }
+    for (int i = 0; i < sz; i++) hash += (hash << 5) + *p++;
     return hash;
 }
 
